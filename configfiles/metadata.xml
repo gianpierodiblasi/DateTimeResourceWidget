@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities>
+  <ExtensionPackages>
+    <ExtensionPackage 
+      name="DateTimeResourceWidget"
+      packageVersion="1.1.0"
+      vendor="Accenture Italy - Industry X"
+      description="Extension to simplify the management of dates, times and date intervals"
+      minimumThingWorxVersion="8.3.0"
+      dependsOn=""> 
+    </ExtensionPackage>
+  </ExtensionPackages>
+  
+  <Widgets>
+    <Widget name="datetimeresource">
+      <UIResources>
+        <FileResource description="" file="datetimeresource.ide.js" isDevelopment="true" isRuntime="false" type="JS"/>
+        <FileResource description="" file="datetimeresource.ide.css" isDevelopment="true" isRuntime="false" type="CSS"/>
+        <FileResource description="" file="datetimeresource.runtime.js" isDevelopment="false" isRuntime="true" type="JS"/>
+        <FileResource description="" file="datetimeresource.runtime.css" isDevelopment="false" isRuntime="true" type="CSS"/>
+      </UIResources>
+    </Widget>    
+  </Widgets> 
+</Entities>
