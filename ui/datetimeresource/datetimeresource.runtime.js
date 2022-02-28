@@ -1,6 +1,7 @@
 /* global TW, Intl */
 TW.Runtime.Widgets.datetimeresource = function () {
   var thisWidget = this;
+  var timeoutID;
 
   this.runtimeProperties = function () {
     return {
@@ -15,15 +16,47 @@ TW.Runtime.Widgets.datetimeresource = function () {
   };
 
   this.afterRender = function () {
+    thisWidget.setProperty('date', new Date());
+    
     var debugMode = thisWidget.getProperty('debugMode');
+    var autoUpdate = thisWidget.getProperty("autoUpdate");
 
     var offset = new Date().getTimezoneOffset();
     var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     if (debugMode) {
-      console.log("DataTimeResource - browserTimeZoneOffset = " + offset + ", browserTimeZone = " + timezone);
+      console.log("DataTimeResource - browserTimeZoneOffset = " + offset + ", browserTimeZone = " + timezone + ", autoUpdate = " + autoUpdate);
     }
+
     thisWidget.setProperty('browserTimeZoneOffset', offset);
     thisWidget.setProperty('browserTimeZone', timezone);
+
+    if (autoUpdate !== 'disabled') {
+      timeoutID = setInterval(function () {
+        var toUpdate = false;
+        var date = new Date();
+
+        switch (autoUpdate) {
+          case 'second':
+            toUpdate = true;
+            break;
+          case 'minute':
+            toUpdate = date.getSeconds() === 0;
+            break;
+          case 'hour':
+            toUpdate = date.getSeconds() === 0 && date.getMinutes() === 0;
+            break;
+          case 'day':
+            toUpdate = date.getSeconds() === 0 && date.getMinutes() === 0 && date.getHours() === 0;
+            break;
+        }
+
+        if (toUpdate) {
+          thisWidget.setProperty('date', date);
+          thisWidget.jqElement.triggerHandler("AutoUpdated");
+        }
+      }, 1000);
+    }
   };
 
   this.serviceInvoked = function (serviceName) {
@@ -160,4 +193,11 @@ TW.Runtime.Widgets.datetimeresource = function () {
       this.setProperty("dateFormat", updatePropertyInfo.RawSinglePropertyValue);
     }
   };
+
+  this.beforeDestroy = function () {
+    if (timeoutID) {
+      clearInterval(timeoutID);
+    }
+  }
+  ;
 };

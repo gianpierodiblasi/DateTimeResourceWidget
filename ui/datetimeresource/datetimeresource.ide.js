@@ -66,11 +66,23 @@ TW.IDE.Widgets.datetimeresource = function () {
           defaultValue: '',
           baseType: 'STRING'
         },
+        autoUpdate: {
+          'isEditable': true,
+          description: "if not set to 'disabled', it represents the interval after which the date is automatically updated to the current date",
+          defaultValue: 'disabled',
+          baseType: 'STRING',
+          'selectOptions': [
+            {value: 'disabled', text: 'Disabled'},
+            {value: 'second', text: 'Second'},
+            {value: 'minute', text: 'Minute'},
+            {value: 'hour', text: 'Hour'},
+            {value: 'day', text: 'Day'}
+          ]
+        },
         'date': {
           'isEditable': true,
           description: "The date to use for intervalType = day, week, month, year, and for date formatting",
           isBindingTarget: true,
-          defaultValue: new Date(),
           baseType: 'DATETIME'
         },
         'dateFormat': {
@@ -129,7 +141,8 @@ TW.IDE.Widgets.datetimeresource = function () {
   this.widgetEvents = function () {
     return {
       'Evaluated': {},
-      'Formatted': {}
+      'Formatted': {},
+      'AutoUpdated': {}
     };
   };
 
