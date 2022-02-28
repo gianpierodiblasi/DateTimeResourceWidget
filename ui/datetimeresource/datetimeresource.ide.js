@@ -68,10 +68,24 @@ TW.IDE.Widgets.datetimeresource = function () {
         },
         'date': {
           'isEditable': true,
-          description: "The date to use for intervalType = day, week, month, year",
+          description: "The date to use for intervalType = day, week, month, year, and for date formatting",
           isBindingTarget: true,
           defaultValue: new Date(),
           baseType: 'DATETIME'
+        },
+        'dateFormat': {
+          'isEditable': true,
+          description: "the date format",
+          isBindingTarget: true,
+          defaultValue: '',
+          baseType: 'STRING'
+        },
+        'dateFormatted': {
+          'isEditable': false,
+          description: "the formatted date",
+          isBindingSource: true,
+          defaultValue: '',
+          baseType: 'STRING'
         },
         'intervalStart': {
           'isEditable': false,
@@ -84,6 +98,18 @@ TW.IDE.Widgets.datetimeresource = function () {
           description: "The end date of the interval",
           isBindingSource: true,
           baseType: 'DATETIME'
+        },
+        'intervalStartFormatted': {
+          'isEditable': false,
+          description: "The formatted start date of the interval",
+          isBindingSource: true,
+          baseType: 'STRING'
+        },
+        'intervalEndFormatted': {
+          'isEditable': false,
+          description: "The formatted end date of the interval",
+          isBindingSource: true,
+          baseType: 'STRING'
         }
       }
     };
@@ -93,13 +119,17 @@ TW.IDE.Widgets.datetimeresource = function () {
     return {
       'Evaluate': {
         'warnIfNotBound': true
+      },
+      'Format': {
+        'warnIfNotBound': true
       }
     };
   };
 
   this.widgetEvents = function () {
     return {
-      'Evaluated': {}
+      'Evaluated': {},
+      'Formatted': {}
     };
   };
 

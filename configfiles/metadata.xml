@@ -3,7 +3,7 @@
   <ExtensionPackages>
     <ExtensionPackage 
       name="DateTimeResourceWidget"
-      packageVersion="1.1.0"
+      packageVersion="1.2.1"
       vendor="Accenture Italy - Industry X"
       description="Extension to simplify the management of dates, times and date intervals"
       minimumThingWorxVersion="8.3.0"

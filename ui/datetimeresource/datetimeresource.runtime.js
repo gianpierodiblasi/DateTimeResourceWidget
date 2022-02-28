@@ -27,10 +27,11 @@ TW.Runtime.Widgets.datetimeresource = function () {
   };
 
   this.serviceInvoked = function (serviceName) {
+    var debugMode = thisWidget.getProperty('debugMode');
+    var date = thisWidget.getProperty('date');
+
     if (serviceName === 'Evaluate') {
-      var debugMode = thisWidget.getProperty('debugMode');
       var intervalType = thisWidget.getProperty('intervalType');
-      var date = thisWidget.getProperty('date');
 
       if (debugMode) {
         console.log("DataTimeResource - intervalType = " + intervalType + ", date = " + date);
@@ -127,6 +128,26 @@ TW.Runtime.Widgets.datetimeresource = function () {
       thisWidget.setProperty('intervalEnd', end);
 
       thisWidget.jqElement.triggerHandler("Evaluated");
+    } else if (serviceName === 'Format') {
+      var dateFormat = thisWidget.getProperty('dateFormat');
+      var intervalStart = thisWidget.getProperty('intervalStart');
+      var intervalEnd = thisWidget.getProperty('intervalEnd');
+
+      if (debugMode) {
+        console.log("DataTimeResource - dateFormat = " + dateFormat + ", date = " + date + ", intervalStart = " + intervalStart + ", intervalEnd = " + intervalEnd);
+      }
+
+      if (dateFormat && date) {
+        thisWidget.setProperty('dateFormatted', TW.DateUtilities.oldFormatDate(new Date(date), dateFormat));
+      }
+      if (dateFormat && intervalStart) {
+        thisWidget.setProperty('intervalStartFormatted', TW.DateUtilities.oldFormatDate(new Date(intervalStart), dateFormat));
+      }
+      if (dateFormat && intervalEnd) {
+        thisWidget.setProperty('intervalEndFormatted', TW.DateUtilities.oldFormatDate(new Date(intervalEnd), dateFormat));
+      }
+
+      thisWidget.jqElement.triggerHandler("Formatted");
     }
   };
 
@@ -135,6 +156,8 @@ TW.Runtime.Widgets.datetimeresource = function () {
       this.setProperty("intervalType", updatePropertyInfo.RawSinglePropertyValue);
     } else if (updatePropertyInfo.TargetProperty === 'date') {
       this.setProperty("date", updatePropertyInfo.RawSinglePropertyValue);
+    } else if (updatePropertyInfo.TargetProperty === 'dateFormat') {
+      this.setProperty("dateFormat", updatePropertyInfo.RawSinglePropertyValue);
     }
   };
 };
